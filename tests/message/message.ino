@@ -1,0 +1,37 @@
+#include <AUnit.h>
+#include <Arduino.h>
+#include <Canny.h>
+#include <R51Core.h>
+
+namespace R51 {
+
+using namespace aunit;
+using ::Canny::Frame;
+
+test(MessageTest, SystemEvent) {
+    SystemEvent event(0x01);
+    Message msg(event);
+    assertEqual(&event, &msg.system_event());
+}
+
+test(MessageTest, CANFrame) {
+    Frame frame(0x123, 4, {0x01, 0x02, 0x03, 0x04});
+    Message msg(frame);
+    assertEqual(&frame, &msg.can_frame());
+}
+
+}  // namespace R51
+
+// Test boilerplate.
+void setup() {
+#ifdef ARDUINO
+    delay(1000);
+#endif
+    SERIAL_PORT_MONITOR.begin(115200);
+    while(!SERIAL_PORT_MONITOR);
+}
+
+void loop() {
+    aunit::TestRunner::run();
+    delay(1);
+}
