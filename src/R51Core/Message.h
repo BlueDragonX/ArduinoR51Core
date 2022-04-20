@@ -3,31 +3,9 @@
 
 #include <Arduino.h>
 #include <Canny.h>
+#include "SystemEvent.h"
 
 namespace R51 {
-
-struct SystemEvent {
-    // Unique Event identifier. This is unique among all events.
-    uint8_t id;
-    // Event data. Empty bytes are padded with 0xFF.
-    uint8_t data[5];
-    // The number of bytes set in data. The unset bytes are padded with 0xFF.
-    uint8_t size;
-
-    SystemEvent() : id(0), size(0) {
-        id = 0;
-        size = 0;
-        memset(data, 0xFF, 5);
-    }
-
-    explicit SystemEvent(uint8_t id) : id(id), size(0) {
-        memset(data, 0xFF, 5);
-    }
-
-    SystemEvent(uint8_t id, uint8_t size) : id(id), size(size) {
-        memset(data, 0xFF, 5);
-    }
-};
 
 class Message {
     public:
