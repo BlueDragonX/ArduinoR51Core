@@ -14,6 +14,9 @@ size_t SystemEvent::printTo(Print& p) const {
     size_t n = p.print(id, HEX);
     for (uint8_t i = 0; i < size; i++) {
         n += p.print(":");
+        if (data[i] <= 0x0F) {
+            n += p.print("0");
+        }
         n += p.print(data[i], HEX);
     }
     return n;
