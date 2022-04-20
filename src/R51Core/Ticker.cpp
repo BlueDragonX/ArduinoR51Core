@@ -6,6 +6,9 @@ Ticker::Ticker(uint32_t interval, Faker::Clock* clock) :
         interval_(interval), last_tick_(0), clock_(clock) {}
 
 bool Ticker::active() const {
+    if (interval_ == 0) {
+        return false;
+    }
     if (clock_->millis() - last_tick_ >= interval_) {
         return true;
     }
@@ -13,7 +16,7 @@ bool Ticker::active() const {
 }
 
 void Ticker::reset() {
-    if (clock_->millis() - last_tick_ >= interval_) {
+    if (interval_ != 0 && clock_->millis() - last_tick_ >= interval_) {
         last_tick_ = clock_->millis();
     }
 }

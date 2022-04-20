@@ -32,6 +32,15 @@ test(TickerTest, Tick) {
     assertTrue(t.active());
 }
 
+test(TickerTest, NoTick) {
+    FakeClock clock;
+    Ticker t(0, &clock);
+
+    assertFalse(t.active());
+    clock.set(10000000000);
+    assertFalse(t.active());
+}
+
 }  // namespace R51
 
 // Test boilerplate.
