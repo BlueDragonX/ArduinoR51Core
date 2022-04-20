@@ -65,7 +65,16 @@ class Message {
         void* ref_;
 
         Message(Type type, void* ref) : type_(type), ref_(ref) {}
+
+        friend bool operator==(const Message&, const Message&);
+        friend bool operator!=(const Message&, const Message&);
 };
+
+// Return true if the two messages reference the same payload.
+bool operator==(const Message& left, const Message& right);
+
+// Return true if the two messages reference different payloads.
+bool operator!=(const Message& left, const Message& right);
 
 }  // namespace R51
 
