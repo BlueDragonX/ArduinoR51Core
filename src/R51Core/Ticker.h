@@ -19,8 +19,11 @@ class Ticker {
         // Reset the ticker's interval.
         void reset();
 
+        // Reste the ticker with a specific.
+        void reset(uint32_t interval);
+
     private:
-        const uint32_t interval_;
+        uint32_t interval_;
         uint32_t last_tick_;
         Faker::Clock* clock_;
 };

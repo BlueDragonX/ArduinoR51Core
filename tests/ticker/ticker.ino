@@ -8,7 +8,7 @@ namespace R51 {
 using namespace aunit;
 using ::Faker::FakeClock;
 
-test(TickerTest, Tick) {
+test(TickerTest, TickAndReset) {
     FakeClock clock;
     Ticker t(500, &clock);
 
@@ -32,12 +32,47 @@ test(TickerTest, Tick) {
     assertTrue(t.active());
 }
 
+test(TickerTest, EarlyReset) {
+    FakeClock clock;
+    Ticker t(500, &clock);
+    assertFalse(t.active());
+
+    clock.set(200);
+    assertFalse(t.active());
+
+    t.reset();
+    assertFalse(t.active());
+
+    clock.set(500);
+    assertFalse(t.active());
+
+    clock.set(700);
+    assertTrue(t.active());
+}
+
+test(TickerTest, TickAndResetNewInterval) {
+    FakeClock clock;
+    Ticker t(500, &clock);
+
+    assertFalse(t.active());
+
+    clock.set(500);
+    assertTrue(t.active());
+    t.reset(1000);
+
+    clock.set(1000);
+    assertFalse(t.active());
+
+    clock.set(1500);
+    assertTrue(t.active());
+}
+
 test(TickerTest, NoTick) {
     FakeClock clock;
     Ticker t(0, &clock);
 
     assertFalse(t.active());
-    clock.set(10000000000);
+    clock.set(1000000000);
     assertFalse(t.active());
 }
 

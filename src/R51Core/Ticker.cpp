@@ -16,9 +16,12 @@ bool Ticker::active() const {
 }
 
 void Ticker::reset() {
-    if (interval_ != 0 && clock_->millis() - last_tick_ >= interval_) {
-        last_tick_ = clock_->millis();
-    }
+    last_tick_ = clock_->millis();
+}
+
+void Ticker::reset(uint32_t interval) {
+    interval_ = interval;
+    reset();
 }
 
 }  // namespace R51
